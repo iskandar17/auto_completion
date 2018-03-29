@@ -1,5 +1,5 @@
 //@flow
-import {put,call,takeEvery} from 'redux-saga/effects';
+import {put,call,takeLatest} from 'redux-saga/effects';
 import { api } from '../api';
 import type { Saga } from 'redux-saga';
 type payLoadType ={
@@ -14,8 +14,8 @@ function* getData(params): Saga<void> {
     let resp;
 	try{
         resp = yield call(api.twitter, params.state.query);
-        payLoad.data = resp.json();
-		yield put({type: "SEARCH_DATA", data:payLoad});
+        payLoad.data = resp;
+		yield put({type: "SEARCH_DATA", state:payLoad});
 	}catch(e){
         payLoad.error = true;
         payLoad.data = e;
@@ -23,4 +23,4 @@ function* getData(params): Saga<void> {
 	}
 }
 
-export const makeRequest = takeEvery("SEARCH", getData);
+export const makeRequest = takeLatest("SEARCH", getData);

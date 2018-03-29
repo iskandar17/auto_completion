@@ -15,7 +15,7 @@ const middleWares = ()=>{
   }
 };
 export const store = createStore(
-   combineReducers({...reducers}), 
- middleWares()
+  combineReducers({...reducers}), 
+  middleWares()
 );
 sagaMiddleware.run(sagaActions)

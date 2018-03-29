@@ -1,13 +1,13 @@
 //@flow
 type mainStateType = {
 	error:boolean,
-	data:Object
+	data:Array<Object>
 };
 const MainInitState = {
     error:false,
-    data:{}
+    data:[]
 };
-export function main(
+export function list(
 		state:mainStateType=MainInitState, 
 		action:{
 			state:mainStateType,
@@ -15,7 +15,7 @@ export function main(
 		}
 	){
 	switch (action.type) {
-        case 'SEARCH_DATA':
+		case 'SEARCH_DATA':
 			return Object.assign({},state, action.state);
 		default:
 			return state;
@@ -33,7 +33,7 @@ export function toggleDropList(state:{
 	}) {
 	switch (action.type) {
         case 'OPEN_DROP':
-			return Object.assign(state, {open:action.state});
+			return Object.assign({},state, {open:action.state});
 		default:
 			return state;
 	}

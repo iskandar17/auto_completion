@@ -10,5 +10,8 @@ export const api = {
                 q:query
             };
         return fetch(getWithParams(url,params))
+        .then((resp)=>resp.json())
+        .then((resp)=>resp)
+        .catch((e)=>(new Error(e)))
     }
 };
