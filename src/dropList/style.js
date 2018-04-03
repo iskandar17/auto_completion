@@ -1,11 +1,16 @@
 import styled from 'styled-components'; 
 
 export const Wrap = styled.ul`
-    display:${(props)=>props.open ? 'block' : 'none'}
+    display:${(props)=>props.open ? 'block' : 'none'};
     background:#fff;
     padding:0;
     margin:0;
     list-style:none;
+    position: absolute;
+    top: 100%;
+    left: 15px;
+    right:15px;
+    margin-top: -15px;
 `;
 export const Items = styled.li`
     border-bottom:1px solid #ededed;

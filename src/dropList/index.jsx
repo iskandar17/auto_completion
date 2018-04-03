@@ -1,11 +1,16 @@
+//@flow
 import React, { Component } from 'react';
 import {Wrap, Items, Link} from './style';
 import {connect} from 'react-redux';
+type ItemsType = {
+    array:Array<Object>,
+    selected:number
+}
 
-const ListItems = (rp)=>{
-    let {array,selected} = rp;
-    console.log(selected)
-    return array.splice(0,4).map((ex,k)=><Items key={k}>
+const ListItems = (rp:ItemsType)=>{
+    let {array,selected} = rp,
+        list = new Array(...array);
+    return list.splice(0,4).map((ex,k)=><Items key={k}>
         <Link>
             {ex.name} @{ex.screen_name}
         </Link>
@@ -16,7 +21,8 @@ class List extends Component{
         if(this.props.list.data.length === 0){
             return  null;
         }
-        return <Wrap open={this.props.toggleDropList.open}> 
+        //this.props.toggleDropList.open
+        return <Wrap open={true}> 
             <ListItems array={this.props.list.data} selected={0}/>
         </Wrap>;
     }

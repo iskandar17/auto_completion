@@ -37,23 +37,17 @@ class Search extends Component {
       
     }
   }
-  openDropList(){
+  toggleDropList(state){
     store.dispatch({
       type:"OPEN_DROP",
-      state:true
-    });
-  }
-  closeDropList(){
-    store.dispatch({
-      type:"OPEN_DROP",
-      state:false
+      state:state
     });
   }
   render() {
     return <SearchWrap>
               <Input 
-                    onFocus={(e)=>{this.openDropList()}}
-                    onBlur={(e)=>{this.closeDropList()}}
+                    onFocus={(e)=>{this.toggleDropList(true)}}
+                    onBlur={(e)=>{this.toggleDropList(false)}}
                     onKeyUp={(e)=>{this.keyUp(e)}}
                     >
               </Input>

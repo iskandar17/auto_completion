@@ -1,14 +1,15 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 import {store} from './helpers/store';
 import Search from './App';
 import ListWrap from './dropList';
+import {WrapAutoComp} from './style';
 render(
     <Provider store={store}>
-        <Fragment>
+        <WrapAutoComp>
             <Search />
             <ListWrap />
-        </Fragment>
+        </WrapAutoComp>
     </Provider>
 , document.getElementById('root'));

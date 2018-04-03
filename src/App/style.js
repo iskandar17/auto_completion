@@ -10,9 +10,6 @@ const colors = {
     fieldsBg:'#1965e2'
 };
 export const SearchWrap = styled.div`
-    padding:15px;
-    max-width:450px;
-    margin:0 auto;
     &:after{
         display:table;
         width:100%;
