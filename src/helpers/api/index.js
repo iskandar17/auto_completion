@@ -12,6 +12,6 @@ export const api = {
         return fetch(getWithParams(url,params))
         .then((resp)=>resp.json())
         .then((resp)=>resp)
-        .catch((e)=>(new Error(e)))
+        .catch((e)=>{throw Error(e)})
     }
 };

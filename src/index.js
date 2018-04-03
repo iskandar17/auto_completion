@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment}from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 import {store} from './helpers/store';
@@ -7,9 +7,13 @@ import ListWrap from './dropList';
 import {WrapAutoComp} from './style';
 render(
     <Provider store={store}>
-        <WrapAutoComp>
-            <Search />
-            <ListWrap />
-        </WrapAutoComp>
+        <Fragment>
+            <WrapAutoComp>
+                <Search />
+                <ListWrap toggleBlock={true}/>
+            </WrapAutoComp>
+            <h2>Results</h2>
+            <ListWrap toggleBlock={false}/>
+        </Fragment>
     </Provider>
 , document.getElementById('root'));

@@ -38,3 +38,20 @@ export function toggleDropList(state:{
 			return state;
 	}
 }
+
+export function moveList(state:{
+		['index']:number
+	}={
+		index:-1
+	},
+	action:{
+		state:number,
+		type:string
+	}) {
+	switch (action.type) {
+		case 'LIST_MOVE':
+			return Object.assign({},state, {index:action.state});
+		default:
+			return state;
+	}
+}

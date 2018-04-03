@@ -4,11 +4,11 @@ import { api } from '../api';
 import type { Saga } from 'redux-saga';
 type payLoadType ={
     error:boolean,
-    data:Object
+    data:Array<Object>
 };
 const payLoad: payLoadType = {
     error:false,
-    data:{}
+    data:[]
 };
 function* getData(params): Saga<void> {
     let resp;
@@ -18,8 +18,8 @@ function* getData(params): Saga<void> {
 		yield put({type: "SEARCH_DATA", state:payLoad});
 	}catch(e){
         payLoad.error = true;
-        payLoad.data = e;
-		yield put({type: "SEARCH_DATA", data:payLoad});
+        payLoad.data = [];
+		yield put({type: "SEARCH_DATA", state:payLoad});
 	}
 }
 
