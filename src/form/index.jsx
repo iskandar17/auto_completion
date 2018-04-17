@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { SearchWrap, Input, Button, WrapAutoComp } from './style';
 import { store } from '../helpers/store';
 import { MAX_ITEMS_IN_LIST } from '../helpers/constants';
-import { connect } from 'react-redux';
 import ListWrap from '../dropList';
 type stateType = {
   oldValue: string,
@@ -125,6 +124,14 @@ class Search extends Component<any, stateType> {
     })
   }
   render() {
+    if(!this.props.data){
+      console.warn(`props data must be seted`)
+      return null;
+    }
+    if(!Array.isArray(this.props.data)){
+      console.warn(`props data must be an array`)
+      return null;
+    }
     return <WrapAutoComp>
       <SearchWrap onSubmit={this.makeSearch.bind(this)}>
         <Input
@@ -150,4 +157,4 @@ class Search extends Component<any, stateType> {
   }
 }
 
-export default connect(store => ({ data: store.list.data }))(Search);
+export default Search;
