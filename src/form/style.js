@@ -35,3 +35,10 @@ export const Button = styled.button `
   color:${colors.btnText};
   ${formFields}
 `;
+
+export const WrapAutoComp = styled.div`
+    position:relative;
+    max-width:450px;
+    margin:0 auto;
+    padding:15px;
+`

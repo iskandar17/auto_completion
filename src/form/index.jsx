@@ -1,15 +1,15 @@
 //@flow
 import React, { Component } from 'react';
-import { SearchWrap, Input, Button } from './style';
+import { SearchWrap, Input, Button, WrapAutoComp } from './style';
 import { store } from '../helpers/store';
 import { MAX_ITEMS_IN_LIST } from '../helpers/constants';
 import { connect } from 'react-redux';
+import ListWrap from '../dropList';
 type stateType = {
   oldValue: string,
   isListOpen: boolean,
   index: number,
-  value: string,
-  resetSearch: boolean
+  value: string
 }
 class Search extends Component<any, stateType> {
   constructor() {
@@ -18,8 +18,7 @@ class Search extends Component<any, stateType> {
       oldValue: '',
       isListOpen: false,
       index: -1,
-      value: '',
-      resetSearch: false
+      value: ''
     };
     this.input = null;
   }
@@ -50,7 +49,11 @@ class Search extends Component<any, stateType> {
       value = this.state.oldValue;
     } else {
       selected = this.props.data[index];
-      value = `${selected.name} @${selected.screen_name}`;
+      let val = this.props.setValue(selected);
+      if(!val){
+        this.valError();
+      }
+      value = val;
     }
     if (index === MAX_ITEMS_IN_LIST) {
       index = -1;
@@ -81,9 +84,7 @@ class Search extends Component<any, stateType> {
         this.runSearch(val)
       }
     } else {
-      if (!this.state.resetSearch) {
         this.runSearch(val)
-      }
     }
   }
   setValue(e: SyntheticEvent<HTMLInputElement>) {
@@ -95,58 +96,58 @@ class Search extends Component<any, stateType> {
   toggleDropList(state: boolean) {
     setTimeout(() => {
       this.setState({ isListOpen: state });
-      store.dispatch({
-        type: "OPEN_DROP",
-        state: state
-      });
     }, 350);
   }
   makeSearch(e) {
     e.preventDefault();
     this.runSearch(this.state.value)
   }
+  valError(){
+    throw new Error('function setValue must resturn a string');
+  }
   runSearch(value: string) {
     this.setState(({
       oldValue: value,
       value: value,
       index: -1,
-      resetSearch: !this.state.resetSearch
     }), () => {
-      store.dispatch({
-        type: "SEARCH",
-        state: {
-          query: this.state.value
-        }
-      });
-      store.dispatch({
-        type: "LIST_MOVE",
-        state: -1
-      });
+      this.props.request(value)
     });
   }
-  componentWillReceiveProps(p: Object) {
-    if (p.index !== -1) {
-      let selected = this.props.data[p.index],
-        value = `${selected.name} @${selected.screen_name}`;
-      this.runSearch(value)
+  moveListSet(indx:number){
+    let  selected = this.props.data[indx], val = this.props.setValue(selected);
+    if(!val){
+      this.valError();
     }
+    this.setState({
+      index: indx,
+      value: val
+    })
   }
   render() {
-    return <SearchWrap onSubmit={this.makeSearch.bind(this)}>
-      <Input
-        onFocus={(e) => { this.toggleDropList(true) }}
-        onBlur={(e) => { this.toggleDropList(false) }}
-        onKeyUp={(e) => { this.keyUp(e) }}
-        onChange={(e) => { this.setValue(e) }}
-        value={this.state.value}
-        innerRef={(input) => { this.input = input }}
-      >
-      </Input>
-      <Button type="submit" value="">
-        search
+    return <WrapAutoComp>
+      <SearchWrap onSubmit={this.makeSearch.bind(this)}>
+        <Input
+          onFocus={(e) => { this.toggleDropList(true) }}
+          onBlur={(e) => { this.toggleDropList(false) }}
+          onKeyUp={(e) => { this.keyUp(e) }}
+          onChange={(e) => { this.setValue(e) }}
+          value={this.state.value}
+          innerRef={(input) => { this.input = input }}
+        >
+        </Input>
+        <Button type="submit" value="">
+          search
               </Button>
-    </SearchWrap>;
+      </SearchWrap>
+      <ListWrap
+        popUpToggle={this.state.isListOpen}
+        toggleBlock={true}
+        moveList={this.moveListSet.bind(this)}
+        selected={this.state.index}
+        list={this.props.data} />
+    </WrapAutoComp>;
   }
 }
 
-export default connect(store => ({ data: store.list.data, index: store.moveList.index }))(Search);
+export default connect(store => ({ data: store.list.data }))(Search);
