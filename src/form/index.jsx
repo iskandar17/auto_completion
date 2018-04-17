@@ -130,6 +130,13 @@ class Search extends Component<any, stateType> {
       value: val
     })
   }
+  bindSubmit(indx: number){
+    let selected = this.props.data[indx], val = this.props.setValue(selected);
+    if (!val) {
+      this.valError();
+    }
+    this.runSearch(val,true)
+  }
   render() {
     if (!this.props.data) {
       console.warn(`props data must be seted`)
@@ -157,7 +164,7 @@ class Search extends Component<any, stateType> {
       <ListWrap
         popUpToggle={this.state.isListOpen}
         toggleBlock={true}
-        moveList={this.moveListSet.bind(this)}
+        moveList={this.bindSubmit.bind(this)}
         selected={this.state.index}
         list={this.props.data} />
     </WrapAutoComp>;
