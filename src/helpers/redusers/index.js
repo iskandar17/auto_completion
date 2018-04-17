@@ -22,35 +22,10 @@ export function list(
 	}
 }
 
-export function toggleDropList(state:{
-		['open']:boolean
-	}={
-		open:false
-	},
-	action:{
-		state:boolean,
-		type:string
-	}) {
+export function showResults(state={show:false},action){
 	switch (action.type) {
-        case 'OPEN_DROP':
-			return Object.assign({},state, {open:action.state});
-		default:
-			return state;
-	}
-}
-
-export function moveList(state:{
-		['index']:number
-	}={
-		index:-1
-	},
-	action:{
-		state:number,
-		type:string
-	}) {
-	switch (action.type) {
-		case 'LIST_MOVE':
-			return Object.assign({},state, {index:action.state});
+		case 'SHOW_RESULTS':
+			return Object.assign({},state, action.state);
 		default:
 			return state;
 	}

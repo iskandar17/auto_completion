@@ -6,7 +6,8 @@ type ItemsType = {
 	list: Array<Object>,
 	selected: number,
 	toggleBlock: boolean,
-	moveList: Function
+	moveList: Function,
+	isPopUp:boolean
 }
 type ItemInnerType = {
 	toggleBlock: boolean,

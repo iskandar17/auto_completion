@@ -49,7 +49,7 @@ class Search extends Component<any, stateType> {
     } else {
       selected = this.props.data[index];
       let val = this.props.setValue(selected);
-      if(!val){
+      if (!val) {
         this.valError();
       }
       value = val;
@@ -83,7 +83,7 @@ class Search extends Component<any, stateType> {
         this.runSearch(val)
       }
     } else {
-        this.runSearch(val)
+      this.runSearch(val)
     }
   }
   setValue(e: SyntheticEvent<HTMLInputElement>) {
@@ -97,25 +97,32 @@ class Search extends Component<any, stateType> {
       this.setState({ isListOpen: state });
     }, 350);
   }
-  makeSearch(e) {
+  makeSearch(e: Event) {
     e.preventDefault();
-    this.runSearch(this.state.value)
+    this.runSearch(this.state.value, true);
   }
-  valError(){
+  valError() {
     throw new Error('function setValue must resturn a string');
   }
-  runSearch(value: string) {
+  runSearch(value: string, submit: ?boolean) {
     this.setState(({
       oldValue: value,
       value: value,
       index: -1,
     }), () => {
-      this.props.request(value)
+      this.props.request(value);
+      if (!this.state.isListOpen) {
+        this.toggleDropList(true)
+      }
+      if (submit) {
+        this.props.onSubmit();
+        this.toggleDropList(false)
+      }
     });
   }
-  moveListSet(indx:number){
-    let  selected = this.props.data[indx], val = this.props.setValue(selected);
-    if(!val){
+  moveListSet(indx: number) {
+    let selected = this.props.data[indx], val = this.props.setValue(selected);
+    if (!val) {
       this.valError();
     }
     this.setState({
@@ -124,11 +131,11 @@ class Search extends Component<any, stateType> {
     })
   }
   render() {
-    if(!this.props.data){
+    if (!this.props.data) {
       console.warn(`props data must be seted`)
       return null;
     }
-    if(!Array.isArray(this.props.data)){
+    if (!Array.isArray(this.props.data)) {
       console.warn(`props data must be an array`)
       return null;
     }
